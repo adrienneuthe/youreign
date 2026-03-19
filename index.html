@@ -938,36 +938,30 @@ footer{
       <div class="form-card" id="quick-form">
         <div class="form-title">Tell Me More</div>
         <div class="form-sub">Not ready to commit? Drop your details and we'll show you exactly what your AI employee would handle for your specific business.</div>
-        <div class="form-fields" id="quickFields">
-          <input type="text" placeholder="Your full name" class="form-input" id="qname">
-          <input type="email" placeholder="Email address" class="form-input" id="qemail">
-          <input type="text" placeholder="What does your business do? (one sentence)" class="form-input" id="qbiz">
-          <button class="form-submit" onclick="submitForm('quick')">See How This Works in My Business →</button>
+        <form action="https://formspree.io/f/mqeynjnr" method="POST" class="form-fields">
+          <input type="hidden" name="form_type" value="Quick — Tell Me More">
+          <input type="hidden" name="_subject" value="New Reign AI Lead — Tell Me More">
+          <input type="text" name="name" placeholder="Your full name" class="form-input" required>
+          <input type="email" name="email" placeholder="Email address" class="form-input" required>
+          <input type="text" name="business" placeholder="What does your business do? (one sentence)" class="form-input">
+          <button type="submit" class="form-submit">See How This Works in My Business →</button>
           <p class="form-note">No credit card required · We'll reach out within 24 hours</p>
-        </div>
-        <div class="form-success" id="quickSuccess">
-          <div class="success-icon">✨</div>
-          <div class="success-title">You're in!</div>
-          <div class="success-body">We'll be in touch within 24 hours.</div>
-        </div>
+        </form>
       </div>
       <div class="form-card featured" id="deep-form">
         <div class="form-badge">🔥 Priority Access</div>
         <div class="form-title">I'm Ready To<br>Get Started Today</div>
         <div class="form-sub">Tell us about your business and your biggest challenges — we'll build your AI employee around exactly what's holding you back.</div>
-        <div class="form-fields" id="deepFields">
-          <input type="text" placeholder="Your full name" class="form-input" id="dname">
-          <input type="email" placeholder="Email address" class="form-input" id="demail">
-          <input type="text" placeholder="What does your business do? (one sentence)" class="form-input" id="dbiz">
-          <textarea placeholder="What are your biggest current challenges? Admin overload, lead follow-up, content, calendar — be specific." class="form-input" id="dchallenges"></textarea>
-          <button class="form-submit" onclick="submitForm('deep')">I'm Ready — Build My AI Employee →</button>
+        <form action="https://formspree.io/f/mqeynjnr" method="POST" class="form-fields">
+          <input type="hidden" name="form_type" value="Ready To Start — Priority">
+          <input type="hidden" name="_subject" value="🔥 New Reign AI Lead — PRIORITY START">
+          <input type="text" name="name" placeholder="Your full name" class="form-input" required>
+          <input type="email" name="email" placeholder="Email address" class="form-input" required>
+          <input type="text" name="business" placeholder="What does your business do? (one sentence)" class="form-input">
+          <textarea name="challenges" placeholder="What are your biggest current challenges? Admin overload, lead follow-up, content, calendar — be specific." class="form-input"></textarea>
+          <button type="submit" class="form-submit">I'm Ready — Build My AI Employee →</button>
           <p class="form-note">Priority response · Setup within 48 hours · No contracts</p>
-        </div>
-        <div class="form-success" id="deepSuccess">
-          <div class="success-icon">🚀</div>
-          <div class="success-title">You're a priority!</div>
-          <div class="success-body">We'll reach out within hours to get your AI employee built and running.</div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -1020,35 +1014,6 @@ footer{
       target.style.borderColor = 'rgba(255,45,120,0.8)';
       setTimeout(()=>{ target.style.borderColor = orig; }, 1500);
     }, 500);
-  }
-
-  function submitForm(type) {
-    if(type === 'quick') {
-      const name  = document.getElementById('qname').value.trim();
-      const email = document.getElementById('qemail').value.trim();
-      const biz   = document.getElementById('qbiz').value.trim();
-      if(!name || !email){ alert('Please enter your name and email.'); return; }
-      fetch('https://formspree.io/f/mqeynjnr', {
-        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({name, email, business: biz, form_type: 'Quick — Tell Me More'})
-      }).then(r=>{
-        if(r.ok){ document.getElementById('quickFields').style.display='none'; document.getElementById('quickSuccess').style.display='block'; }
-        else { alert('Something went wrong — please try again.'); }
-      }).catch(()=>alert('Something went wrong — please try again.'));
-    } else {
-      const name       = document.getElementById('dname').value.trim();
-      const email      = document.getElementById('demail').value.trim();
-      const biz        = document.getElementById('dbiz').value.trim();
-      const challenges = document.getElementById('dchallenges').value.trim();
-      if(!name || !email){ alert('Please enter your name and email.'); return; }
-      fetch('https://formspree.io/f/mqeynjnr', {
-        method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({name, email, business: biz, challenges, form_type: 'Ready To Start — Priority'})
-      }).then(r=>{
-        if(r.ok){ document.getElementById('deepFields').style.display='none'; document.getElementById('deepSuccess').style.display='block'; }
-        else { alert('Something went wrong — please try again.'); }
-      }).catch(()=>alert('Something went wrong — please try again.'));
-    }
   }
 
   function updateCalc(){
