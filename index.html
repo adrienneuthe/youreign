@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reign AI — Your First Real AI Employee</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink:      #F03E7A;
+  --hot:       #D6165A;
+  --pink-soft: #F9D0E2;
+  --pink-pale: #FDF5F8;
+  --coral:     #FF7B6B;
+  --yellow:    #F5D547;
+  --purple:    #9B6FD4;
+  --white:     #FFFFFF;
+  --off:       #F9F6F8;
+  --dark:      #0F0A14;
+  --navy:      #12101A;
+  --text:      #1A0F1A;
+  --mid:       #4A3550;
+  --muted:     #8A7090;
+  --border:    rgba(180,120,160,0.14);
+  --border-strong: rgba(214,22,90,0.2);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 3rem;
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;font-style:italic;
+  background:linear-gradient(135deg,var(--hot),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.nav-pill{
+  background:linear-gradient(135deg,var(--hot),var(--pink));
+  color:white;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;
+  padding:0.65rem 1.5rem;border-radius:100px;text-decoration:none;
+  box-shadow:0 4px 20px rgba(255,26,108,0.35);
+  transition:transform 0.2s,box-shadow 0.2s;display:inline-block;
+}
+.nav-pill:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,26,108,0.45);}
+
+/* HERO */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  padding:9rem 2rem 5rem;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#fdf5f8 0%,#fff 50%,#f3eefa 100%);
+}
+.blob1{position:absolute;top:-120px;right:-120px;width:500px;height:500px;background:radial-gradient(circle,rgba(214,22,90,0.10),transparent 70%);border-radius:50%;pointer-events:none;}
+.blob2{position:absolute;bottom:-80px;left:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(155,111,212,0.10),transparent 70%);border-radius:50%;pointer-events:none;}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:var(--pink-soft);color:var(--hot);
+  font-size:0.72rem;font-weight:600;letter-spacing:0.06em;
+  padding:0.5rem 1.25rem;border-radius:100px;margin-bottom:2rem;
+  animation:fadeUp 0.6s ease both;
+}
+.pulse{width:6px;height:6px;background:var(--hot);border-radius:50%;animation:pulseAnim 1.5s infinite;}
+@keyframes pulseAnim{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.5);}}
+
+.hero-h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,8vw,6.5rem);font-weight:900;line-height:1.05;
+  letter-spacing:-0.02em;margin-bottom:1.5rem;
+  animation:fadeUp 0.7s 0.1s ease both;
+}
+.hero-h1 em{font-style:italic;color:var(--pink);}
+.grad{
+  background:linear-gradient(135deg,var(--hot),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.hero-sub{
+  font-size:clamp(1rem,2vw,1.2rem);font-weight:400;color:var(--mid);
+  max-width:560px;line-height:1.75;margin-bottom:2.5rem;
+  animation:fadeUp 0.7s 0.2s ease both;
+}
+
+.hero-ctas{display:flex;flex-direction:column;align-items:center;gap:0.75rem;animation:fadeUp 0.7s 0.3s ease both;}
+
+.btn-big{
+  background:linear-gradient(135deg,var(--hot),var(--pink));color:white;
+  font-size:0.95rem;font-weight:600;letter-spacing:0.03em;
+  padding:1.15rem 2.75rem;border-radius:100px;text-decoration:none;
+  box-shadow:0 6px 30px rgba(214,22,90,0.3);
+  transition:transform 0.2s,box-shadow 0.2s;display:inline-block;
+}
+.btn-big:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(214,22,90,0.4);}
+
+.hero-small{color:var(--muted);font-size:0.75rem;}
+.urgency-pill{
+  background:var(--yellow);color:var(--dark);
+  font-size:0.72rem;font-weight:700;letter-spacing:0.07em;
+  padding:0.4rem 1.1rem;border-radius:100px;display:inline-block;
+}
+
+.hero-stats{
+  display:flex;gap:3.5rem;margin-top:4.5rem;
+  animation:fadeUp 0.7s 0.45s ease both;
+}
+.stat{text-align:center;}
+.stat-n{
+  font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;
+  background:linear-gradient(135deg,var(--hot),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-l{font-size:0.72rem;color:var(--muted);font-weight:500;margin-top:0.2rem;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* Hero elements always visible */
+.hero-tag,.hero-h1,.hero-sub,.hero-ctas,.hero-stats{opacity:1;transform:none;}
+
+/* PROOF STRIP */
+.proof-strip{background:var(--navy);border-top:1px solid rgba(214,22,90,0.3);border-bottom:1px solid rgba(214,22,90,0.3);padding:1.2rem 0;overflow:hidden;}
+.marquee{display:flex;gap:3rem;animation:marquee 22s linear infinite;white-space:nowrap;}
+.m-item{display:flex;align-items:center;gap:0.5rem;color:rgba(255,255,255,0.75);font-size:0.75rem;font-weight:500;letter-spacing:0.04em;}
+.m-item span{color:var(--pink);font-size:0.5rem;}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SECTIONS */
+.sec{padding:6rem 2rem;}
+.inner{max-width:1080px;margin:0 auto;}
+.eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--pink);margin-bottom:0.75rem;}
+.h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:900;line-height:1.15;margin-bottom:1rem;}
+.h2 em{font-style:italic;color:var(--pink);}
+
+/* PAIN */
+.pain-bg{background:var(--off);}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.pain-body{font-size:0.95rem;color:var(--mid);line-height:1.85;}
+.pain-body p+p{margin-top:1.1rem;}
+.checks{list-style:none;margin-top:2rem;display:flex;flex-direction:column;gap:0.85rem;}
+.checks li{display:flex;align-items:flex-start;gap:0.85rem;font-size:0.9rem;color:var(--text);line-height:1.6;font-weight:500;}
+.ck{width:22px;height:22px;border-radius:50%;flex-shrink:0;margin-top:0.1rem;background:linear-gradient(135deg,var(--hot),var(--pink));display:flex;align-items:center;justify-content:center;color:white;font-size:0.6rem;font-weight:800;}
+
+/* COMP */
+.comp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:3.5rem;}
+.comp-card{border:1.5px solid var(--border);border-radius:16px;padding:2rem 1.5rem;background:var(--off);transition:transform 0.2s;}
+.comp-card:hover{transform:translateY(-4px);}
+.comp-card.win{border-color:var(--pink);background:linear-gradient(160deg,#fdf5f8,#f8f0fd);box-shadow:0 8px 40px rgba(214,22,90,0.1);position:relative;}
+.comp-card.win::before{content:'✨ THAT\'S YOU';position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--hot),var(--purple));color:white;font-size:0.6rem;font-weight:800;letter-spacing:0.15em;padding:0.35rem 1rem;border-radius:100px;white-space:nowrap;}
+.cn{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:0.3rem;}
+.comp-card.win .cn{color:var(--hot);}
+.ct{font-size:0.65rem;color:var(--muted);letter-spacing:0.08em;margin-bottom:1.5rem;}
+.ci{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
+.ci li{font-size:0.78rem;color:var(--mid);line-height:1.5;padding-left:1.1rem;position:relative;}
+.ci li::before{content:'—';position:absolute;left:0;color:var(--muted);}
+.comp-card.win .ci li{color:var(--text);font-weight:500;}
+.comp-card.win .ci li::before{content:'✓';color:var(--pink);font-weight:800;}
+
+/* HOW */
+.how-bg{background:#F8F4FB;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem;}
+.step{background:white;border-radius:16px;padding:2rem 1.5rem;border:1.5px solid var(--border);text-align:center;transition:transform 0.2s,box-shadow 0.2s;}
+.step:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(155,111,212,0.1);}
+.sn{width:48px;height:48px;border-radius:50%;margin:0 auto 1rem;background:linear-gradient(135deg,var(--hot),var(--purple));color:white;font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;display:flex;align-items:center;justify-content:center;}
+.st{font-size:0.85rem;font-weight:700;margin-bottom:0.6rem;color:var(--text);}
+.sb{font-size:0.8rem;color:var(--muted);line-height:1.65;}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;}
+.feat{border-radius:16px;padding:2.25rem 2rem;background:var(--off);border:1.5px solid var(--border);transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s;}
+.feat:hover{transform:translateY(-5px);border-color:rgba(214,22,90,0.25);box-shadow:0 10px 40px rgba(155,111,212,0.08);}
+.fe{font-size:2rem;margin-bottom:1rem;display:block;}
+.ft{font-size:0.85rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;}
+.fb{font-size:0.82rem;color:var(--muted);line-height:1.7;}
+
+/* CHAT */
+.chat-bg{background:linear-gradient(160deg,#fdf5f9,#f5f0fc);}
+.chat-wrap{max-width:680px;margin:3rem auto 0;}
+.chat-win{background:white;border-radius:20px;padding:2rem;box-shadow:0 8px 50px rgba(155,111,212,0.1);display:flex;flex-direction:column;gap:1.25rem;border:1.5px solid var(--border);}
+.chat-top{display:flex;align-items:center;gap:0.75rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);}
+.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--hot),var(--purple));display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.aname{font-size:0.85rem;font-weight:700;color:var(--text);}
+.astatus{font-size:0.68rem;color:var(--pink);font-weight:500;}
+.msg{display:flex;flex-direction:column;gap:0.3rem;max-width:78%;}
+.msg.u{align-self:flex-end;align-items:flex-end;}
+.msg.a{align-self:flex-start;align-items:flex-start;}
+.mlabel{font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
+.msg.u .mlabel{color:var(--pink);}
+.bub{padding:0.85rem 1.1rem;border-radius:18px;font-size:0.83rem;line-height:1.6;}
+.msg.u .bub{background:linear-gradient(135deg,var(--hot),var(--pink));color:white;border-bottom-right-radius:4px;}
+.msg.a .bub{background:var(--off);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px;}
+
+/* TESTIS */
+.testi-bg{background:white;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;}
+.testi{background:var(--off);border-radius:16px;padding:2.25rem 2rem;border:1.5px solid var(--border);transition:transform 0.2s,box-shadow 0.2s;}
+.testi:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(155,111,212,0.08);}
+.stars{color:var(--pink);font-size:0.9rem;margin-bottom:1rem;letter-spacing:0.1em;}
+.tq{font-family:'Playfair Display',serif;font-size:0.98rem;font-style:italic;line-height:1.7;color:var(--text);margin-bottom:1.5rem;}
+.tname{font-size:0.78rem;font-weight:700;color:var(--hot);}
+.trole{font-size:0.68rem;color:var(--muted);margin-top:0.2rem;}
+
+/* PRICING */
+.price-bg{background:#F8F4FB;}
+.price-card{max-width:620px;margin:3rem auto 0;background:white;border-radius:24px;padding:3.5rem 3rem;border:1.5px solid var(--border-strong);box-shadow:0 16px 60px rgba(155,111,212,0.12);position:relative;text-align:center;}
+.pbadge{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--hot),var(--purple));color:white;font-size:0.68rem;font-weight:800;letter-spacing:0.15em;padding:0.45rem 1.25rem;border-radius:100px;white-space:nowrap;}
+.pwas{font-size:0.9rem;color:var(--muted);text-decoration:line-through;margin-bottom:0.3rem;}
+.pnow{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;background:linear-gradient(135deg,var(--hot),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.pmo{font-size:0.9rem;color:var(--mid);margin-top:0.4rem;margin-bottom:2rem;}
+.pdiv{height:1px;background:var(--border);margin:1.75rem 0;}
+.pinc{list-style:none;display:flex;flex-direction:column;gap:0.85rem;text-align:left;margin-bottom:2rem;}
+.pinc li{display:flex;align-items:flex-start;gap:0.85rem;font-size:0.85rem;color:var(--text);line-height:1.5;}
+.pk{width:22px;height:22px;border-radius:50%;flex-shrink:0;margin-top:0.05rem;background:linear-gradient(135deg,var(--hot),var(--pink));display:flex;align-items:center;justify-content:center;color:white;font-size:0.6rem;font-weight:800;}
+.spots{display:inline-block;background:var(--yellow);color:var(--dark);font-size:0.72rem;font-weight:800;letter-spacing:0.08em;padding:0.4rem 1.1rem;border-radius:100px;margin-bottom:1.5rem;}
+.pnote{font-size:0.68rem;color:var(--muted);margin-top:1rem;}
+
+/* FAQ */
+.faq-in{max-width:720px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--border);padding:1.5rem 0;cursor:pointer;}
+.fq{display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;font-weight:600;color:var(--text);line-height:1.5;}
+.fi{width:28px;height:28px;border-radius:50%;background:var(--pink-soft);color:var(--pink);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-left:1rem;transition:transform 0.3s,background 0.3s;}
+.faq-item.open .fi{transform:rotate(45deg);background:var(--pink);color:white;}
+.fa{font-size:0.82rem;color:var(--mid);line-height:1.8;margin-top:0.85rem;display:none;}
+.faq-item.open .fa{display:block;}
+
+/* FINAL */
+.final{background:var(--navy);padding:7rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.final::before{content:'';position:absolute;top:-100px;left:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(214,22,90,0.12),transparent 70%);pointer-events:none;}
+.final::after{content:'';position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(155,111,212,0.10),transparent 70%);pointer-events:none;}
+.fh2{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:900;color:white;line-height:1.1;margin-bottom:1.5rem;position:relative;}
+.fh2 em{font-style:italic;color:var(--pink-soft);}
+.fsub{color:rgba(255,255,255,0.65);font-size:1rem;max-width:480px;margin:0 auto 2.5rem;line-height:1.8;position:relative;}
+.btn-w{display:inline-block;background:white;color:var(--hot);font-size:0.9rem;font-weight:700;letter-spacing:0.04em;padding:1.1rem 2.75rem;border-radius:100px;text-decoration:none;box-shadow:0 8px 30px rgba(0,0,0,0.3);transition:transform 0.2s,box-shadow 0.2s;}
+.btn-w:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,0.35);}
+.fnote{color:rgba(255,255,255,0.4);font-size:0.72rem;margin-top:1rem;letter-spacing:0.05em;}
+
+footer{background:var(--dark);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;}
+.flogo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;font-style:italic;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.fnt{font-size:0.65rem;color:#7a5f7a;letter-spacing:0.05em;}
+
+/* CALCULATOR */
+.calc-wrap{max-width:620px;margin:3rem auto 0;}
+.calc-card{background:var(--off);border:1.5px solid var(--border);border-radius:20px;padding:2.5rem;}
+.calc-row{margin-bottom:2rem;}
+.calc-label{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:1rem;}
+.slider{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:6px;border-radius:100px;
+  background:linear-gradient(to right,var(--hot) 0%,var(--pink) var(--val,33%),#e0d0e0 var(--val,33%));
+  outline:none;cursor:pointer;
+}
+.slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:22px;height:22px;border-radius:50%;
+  background:white;border:2px solid var(--pink);
+  box-shadow:0 2px 8px rgba(214,22,90,0.25);cursor:pointer;
+}
+.slider::-moz-range-thumb{
+  width:22px;height:22px;border-radius:50%;
+  background:white;border:2px solid var(--pink);cursor:pointer;
+}
+.calc-range-labels{display:flex;justify-content:space-between;align-items:center;margin-top:0.75rem;font-size:0.75rem;color:var(--muted);}
+.calc-val{font-size:1.1rem;font-weight:700;color:var(--text);}
+.calc-result{
+  background:var(--pink-pale);border:1.5px solid rgba(214,22,90,0.12);
+  border-radius:14px;padding:1.75rem;text-align:center;margin-top:0.5rem;
+}
+.calc-result-label{font-size:0.65rem;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--hot);margin-bottom:0.5rem;}
+.calc-result-sub{font-size:0.8rem;color:var(--muted);margin-bottom:0.25rem;}
+.calc-result-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--text);line-height:1;}
+.calc-divider{height:1px;background:rgba(214,22,90,0.12);margin:1rem 0;}
+.calc-compare{font-size:0.78rem;color:var(--muted);margin-bottom:0.25rem;}
+.calc-return{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--hot),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* LEAD FORM */
+.lead-form{margin-top:0.5rem;text-align:left;}
+.lead-form-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.4rem;text-align:center;}
+.lead-form-sub{font-size:0.82rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;text-align:center;}
+.form-fields{display:flex;flex-direction:column;gap:0.85rem;}
+.form-input{
+  width:100%;padding:1rem 1.25rem;border-radius:12px;
+  border:1.5px solid var(--border);background:#fafafa;
+  font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--text);
+  outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+}
+.form-input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(214,22,90,0.08);}
+.form-input::placeholder{color:var(--muted);}
+.form-submit{width:100%;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.9rem;margin-top:0.25rem;}
+.form-success{text-align:center;padding:2rem 1rem;}
+.success-icon{font-size:2.5rem;margin-bottom:1rem;}
+.success-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--text);margin-bottom:0.75rem;}
+.success-body{font-size:0.88rem;color:var(--mid);line-height:1.7;}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .hero-stats{gap:1.5rem;}
+  .pain-grid{grid-template-columns:1fr;}
+  .comp-grid{grid-template-columns:1fr 1fr;}
+  .steps{grid-template-columns:1fr 1fr;}
+  .feat-grid{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .price-card{padding:2.5rem 1.5rem;}
+  footer{flex-direction:column;gap:0.75rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Reign AI</div>
+  <a href="#book" class="nav-pill">Claim Your Spot →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="blob1"></div><div class="blob2"></div>
+  <div class="hero-tag"><span class="pulse"></span>Built exclusively for women who run things</div>
+  <h1 class="hero-h1">You built the empire.<br>Now let <em>AI run it.</em></h1>
+  <p class="hero-sub">The top 1% of women entrepreneurs aren't working harder than you.<br>They just stopped doing the work that doesn't require <em>them.</em></p>
+  <div class="hero-ctas">
+    <a href="#book" class="btn-big">Show Me How This Works →</a>
+    <span class="hero-small">15 minutes. No tech knowledge required.</span>
+    <span class="urgency-pill">⚡ Only 7 spots left this month — setup is 50% off</span>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">18hrs</div><div class="stat-l">avg reclaimed per week</div></div>
+    <div class="stat"><div class="stat-n">48hrs</div><div class="stat-l">to fully operational</div></div>
+    <div class="stat"><div class="stat-n">$500</div><div class="stat-l">per month, fully managed</div></div>
+  </div>
+</section>
+
+<!-- PROOF STRIP -->
+<div class="proof-strip">
+  <div class="marquee">
+    <span class="m-item">✦ Fully autonomous — works 24/7</span>
+    <span class="m-item">✦ WhatsApp or Telegram — no new apps</span>
+    <span class="m-item">✦ Built &amp; managed for you</span>
+    <span class="m-item">✦ Operational in 48 hours</span>
+    <span class="m-item">✦ Cancel anytime, no contracts</span>
+    <span class="m-item">✦ Enterprise AI at small business pricing</span>
+    <span class="m-item">✦ Fully autonomous — works 24/7</span>
+    <span class="m-item">✦ WhatsApp or Telegram — no new apps</span>
+    <span class="m-item">✦ Built &amp; managed for you</span>
+    <span class="m-item">✦ Operational in 48 hours</span>
+    <span class="m-item">✦ Cancel anytime, no contracts</span>
+    <span class="m-item">✦ Enterprise AI at small business pricing</span>
+  </div>
+</div>
+
+<!-- PAIN -->
+<section class="sec pain-bg">
+  <div class="inner">
+    <div class="pain-grid">
+      <div class="reveal">
+        <p class="eyebrow">Let's be real for a second</p>
+        <h2 class="h2">You're the most driven woman in the room.<br><em>And you're still drowning in admin.</em></h2>
+      </div>
+      <div class="reveal">
+        <div class="pain-body">
+          <p>You have a downline, a following, a pipeline. You're the one your team looks up to. And yet — you're spending your best energy chasing leads, fixing scheduling, answering the same DMs, and doing the invisible work nobody sees.</p>
+          <p>Every hour you spend on admin is an hour you're not selling, closing, coaching, or growing. The women pulling ahead of you aren't smarter. They just stopped doing the work that doesn't require <em>them.</em></p>
+        </div>
+        <ul class="checks">
+          <li><span class="ck">✓</span>Warm leads going cold because there's no time to follow up</li>
+          <li><span class="ck">✓</span>Calendar chaos eating your best hours before noon</li>
+          <li><span class="ck">✓</span>Inbox overwhelm making you look less on top of it than you are</li>
+          <li><span class="ck">✓</span>Missing deals while you're busy doing everyone else's job</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMP -->
+<section class="sec">
+  <div class="inner">
+    <div class="reveal" style="text-align:center;max-width:620px;margin:0 auto;">
+      <p class="eyebrow">Why everything else fails you</p>
+      <h2 class="h2">You've tried the tools.<br><em>They all need you to do the work.</em></h2>
+    </div>
+    <div class="comp-grid reveal">
+      <div class="comp-card">
+        <div class="cn">ChatGPT</div><div class="ct">Not an employee</div>
+        <ul class="ci"><li>Waits for you to ask</li><li>No memory of your clients</li><li>Zero initiative</li><li>You do all the thinking</li></ul>
+      </div>
+      <div class="comp-card">
+        <div class="cn">VA Services</div><div class="ct">$1,500–$4,000+/mo</div>
+        <ul class="ci"><li>Business hours only</li><li>Months to train properly</li><li>Quality is unpredictable</li><li>Still needs your oversight</li></ul>
+      </div>
+      <div class="comp-card">
+        <div class="cn">AI Tools</div><div class="ct">Automation in disguise</div>
+        <ul class="ci"><li>You set it up</li><li>You manage it when it breaks</li><li>Another thing to learn</li><li>Reactive, not proactive</li></ul>
+      </div>
+      <div class="comp-card win">
+        <div class="cn">Reign AI</div><div class="ct">Your actual AI employee</div>
+        <ul class="ci"><li>Fully autonomous 24/7</li><li>Remembers every client</li><li>Built &amp; managed for you</li><li>Just text it on WhatsApp</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="sec how-bg">
+  <div class="inner">
+    <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto;">
+      <p class="eyebrow">The process</p>
+      <h2 class="h2">From call to <em>running your business</em> in 48 hours.</h2>
+    </div>
+    <div class="steps reveal">
+      <div class="step"><div class="sn">1</div><div class="st">Tell us what to take off your plate</div><div class="sb">15-minute call. We figure out exactly what's eating your time — leads, admin, scheduling, content.</div></div>
+      <div class="step"><div class="sn">2</div><div class="st">We build your AI employee</div><div class="sb">Custom-built around your business, your clients, your voice. Not some generic bot. Yours.</div></div>
+      <div class="step"><div class="sn">3</div><div class="st">Connect to WhatsApp</div><div class="sb">That's your entire interface. No portals, no dashboards. The app already on your phone.</div></div>
+      <div class="step"><div class="sn">4</div><div class="st">It works. We manage it.</div><div class="sb">Your AI employee is live 24/7. We handle all the tuning and optimization in the background.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="sec">
+  <div class="inner">
+    <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto;">
+      <p class="eyebrow">What it handles</p>
+      <h2 class="h2">Working while you <em>sell, sleep, and lead.</em></h2>
+    </div>
+    <div class="feat-grid reveal">
+      <div class="feat"><span class="fe">💬</span><div class="ft">Lead Follow-Up</div><div class="fb">Tracks every conversation. Sends the right follow-up at the right time. No lead goes cold — ever.</div></div>
+      <div class="feat"><span class="fe">📅</span><div class="ft">Calendar Management</div><div class="fb">Confirms appointments, handles rescheduling, blocks prep time. You just show up.</div></div>
+      <div class="feat"><span class="fe">📥</span><div class="ft">Inbox Triage</div><div class="fb">Flags what's urgent, drafts responses to routine messages, handles the noise you don't have time for.</div></div>
+      <div class="feat"><span class="fe">✨</span><div class="ft">Content &amp; Social</div><div class="fb">Creates content in your exact voice. Posts on schedule. Consistent presence without the grind.</div></div>
+      <div class="feat"><span class="fe">☀️</span><div class="ft">Morning Briefing</div><div class="fb">Every morning before coffee: who to follow up with, what's due, what's overdue. Zero guessing.</div></div>
+      <div class="feat"><span class="fe">👁️</span><div class="ft">Business Monitoring</div><div class="fb">Watches your pipeline, tracks invoices, alerts you the moment something needs your attention.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAT -->
+<section class="sec chat-bg">
+  <div class="inner" style="text-align:center;">
+    <p class="eyebrow reveal">See it in action</p>
+    <h2 class="h2 reveal">You text it. <em>It handles it.</em></h2>
+    <p style="color:var(--muted);font-size:0.9rem;" class="reveal">No dashboards. No logins. Just WhatsApp.</p>
+  </div>
+  <div class="chat-wrap">
+    <div class="chat-win reveal">
+      <div class="chat-top">
+        <div class="avatar">🤖</div>
+        <div><div class="aname">Your AI Employee</div><div class="astatus">● Online — working right now</div></div>
+      </div>
+      <div class="msg u"><span class="mlabel">You</span><div class="bub">Follow up with everyone from this week who asked about the program</div></div>
+      <div class="msg a"><span class="mlabel">AI Employee</span><div class="bub">Done ✓ Sent personalized messages to Ashley, Brianna, and the three women from Thursday's call. Brianna asked about the payment plan — I mentioned it. Want to see what I sent?</div></div>
+      <div class="msg u"><span class="mlabel">You</span><div class="bub">What does my week look like?</div></div>
+      <div class="msg a"><span class="mlabel">AI Employee</span><div class="bub">3 things tomorrow: 9am your downline leader call (she's close to rank — I pulled her notes), 11:30 personal training, 2pm team Zoom. Want talking points prepped for the 9am?</div></div>
+      <div class="msg u"><span class="mlabel">You</span><div class="bub">I haven't heard back from the client I sent a proposal to</div></div>
+      <div class="msg a"><span class="mlabel">AI Employee</span><div class="bub">Last contact was 8 days ago — they went quiet after the proposal. I drafted a warm check-in referencing the timeline they mentioned. Want me to send it now?</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec testi-bg">
+  <div class="inner">
+    <div class="reveal" style="text-align:center;max-width:560px;margin:0 auto;">
+      <p class="eyebrow">Real results</p>
+      <h2 class="h2">Women who stopped doing admin and <em>started leading.</em></h2>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi"><div class="stars">★★★★★</div><div class="tq">"I was spending hours every week chasing leads and answering routine messages. Within the first month, I got back about 18 hours a week. I actually leave work on time now."</div><div class="tname">Sarah K.</div><div class="trole">Business Consultant</div></div>
+      <div class="testi"><div class="stars">★★★★★</div><div class="tq">"The biggest win was lead follow-up. We had warm leads sitting there because no one had time. In 60 days, we recovered $40,000 in business we would have just lost."</div><div class="tname">Maria L.</div><div class="trole">Top MLM Leader</div></div>
+      <div class="testi"><div class="stars">★★★★★</div><div class="tq">"Best $500/month I spend. It writes in my exact tone — a client asked if I'd hired a new assistant. I said yes. Not even lying. This thing is unreal."</div><div class="tname">Rachel T.</div><div class="trole">Executive Coach &amp; Entrepreneur</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI CALCULATOR -->
+<section class="sec" style="background:white;">
+  <div class="inner">
+    <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto;">
+      <p class="eyebrow">Do the math</p>
+      <h2 class="h2">How much is admin <em>actually costing you?</em></h2>
+      <p style="color:var(--muted);font-size:0.9rem;margin-top:0.5rem;">Move the sliders. Then compare the number to $500/month.</p>
+    </div>
+    <div class="calc-wrap reveal">
+      <div class="calc-card">
+        <div class="calc-row">
+          <div class="calc-label">Hours per week on admin</div>
+          <input type="range" id="hoursSlider" min="5" max="40" value="15" class="slider">
+          <div class="calc-range-labels"><span>5 hrs</span><span id="hoursVal" class="calc-val">15 hours</span><span>40 hrs</span></div>
+        </div>
+        <div class="calc-row">
+          <div class="calc-label">Your time is worth</div>
+          <input type="range" id="rateSlider" min="50" max="500" value="150" step="10" class="slider">
+          <div class="calc-range-labels"><span>$50/hr</span><span id="rateVal" class="calc-val">$150/hr</span><span>$500/hr</span></div>
+        </div>
+        <div class="calc-result">
+          <div class="calc-result-label">You're leaving on the table:</div>
+          <div class="calc-result-sub">Every month</div>
+          <div class="calc-result-num" id="monthlyLoss">$9,000</div>
+          <div class="calc-divider"></div>
+          <div class="calc-compare">Your AI employee costs $500/mo</div>
+          <div class="calc-return" id="roiReturn">1700x return</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec price-bg" id="book">
+  <div class="inner" style="text-align:center;">
+    <p class="eyebrow reveal">Your investment</p>
+    <h2 class="h2 reveal">Less than a part-time VA.<br><em>More leverage than a new hire.</em></h2>
+    <p style="color:var(--muted);font-size:0.9rem;max-width:480px;margin:0 auto;" class="reveal">Large companies pay $200K+ for this level of AI. You get the same thing — built and managed for you — for $500/month.</p>
+  </div>
+  <div class="price-card reveal">
+    <div class="pbadge">✨ March Special — 50% Off Setup</div>
+    <div class="pwas">$5,000 setup</div>
+    <div class="pnow">$2,500</div>
+    <div class="pmo">one-time setup · then just $500/month · cancel anytime</div>
+    <div class="pdiv"></div>
+    <ul class="pinc">
+      <li><span class="pk">✓</span>Fully autonomous AI agent — works 24/7/365</li>
+      <li><span class="pk">✓</span>Built specifically for your business and your voice</li>
+      <li><span class="pk">✓</span>Connected to WhatsApp or Telegram</li>
+      <li><span class="pk">✓</span>Trained on your clients, services, and workflows</li>
+      <li><span class="pk">✓</span>5+ custom workflows running day one</li>
+      <li><span class="pk">✓</span>Persistent memory — never forgets a client</li>
+      <li><span class="pk">✓</span>30 days of hands-on tuning included</li>
+      <li><span class="pk">✓</span>Ongoing management and optimization</li>
+      <li><span class="pk">✓</span>No contracts — cancel anytime</li>
+    </ul>
+    <div class="spots">⚡ Only 7 March spots remaining</div>
+    <div class="pdiv"></div>
+    <div class="lead-form" id="leadForm">
+      <p class="lead-form-title">See how this works in your business</p>
+      <p class="lead-form-sub">Tell us a little about you — we'll show you exactly what your AI employee would handle.</p>
+      <div class="form-fields">
+        <input type="text" placeholder="Your name" class="form-input" id="fname">
+        <input type="email" placeholder="Email address" class="form-input" id="femail">
+        <input type="text" placeholder="What does your business do? (one sentence)" class="form-input" id="fbiz">
+        <button class="btn-big form-submit" onclick="handleSubmit()">See How This Works in My Business →</button>
+        <p class="pnote">No credit card required · Operational in 48 hours</p>
+      </div>
+      <div class="form-success" id="formSuccess" style="display:none;">
+        <div class="success-icon">✨</div>
+        <div class="success-title">You're on the list!</div>
+        <div class="success-body">We'll be in touch within 24 hours to walk you through exactly how Reign AI works for your business.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec">
+  <div class="faq-in">
+    <div class="reveal" style="text-align:center;margin-bottom:3rem;">
+      <p class="eyebrow">Got questions?</p>
+      <h2 class="h2"><em>We've got answers.</em></h2>
+    </div>
+    <div class="faq-item reveal"><div class="fq">I'm not technical at all. Can I actually use this?<span class="fi">+</span></div><div class="fa">That's exactly who this is built for. You text your AI on WhatsApp — same as texting anyone. We handle every bit of the technology. You will never see code, a dashboard, or a settings page.</div></div>
+    <div class="faq-item reveal"><div class="fq">How is this different from ChatGPT?<span class="fi">+</span></div><div class="fa">ChatGPT waits for you to ask it something. Your Reign AI employee works around the clock whether you text it or not — following up with leads, monitoring your calendar, posting content, flagging problems. It has memory, context, and initiative. ChatGPT has none of that.</div></div>
+    <div class="faq-item reveal"><div class="fq">What if it makes a mistake with a client?<span class="fi">+</span></div><div class="fa">For the first 30 days, we monitor everything closely. For anything sensitive — client emails, proposals — it runs in draft-and-approve mode. Nothing goes out without your OK until you're completely comfortable.</div></div>
+    <div class="faq-item reveal"><div class="fq">What can it actually do for my business?<span class="fi">+</span></div><div class="fa">Anything a sharp executive assistant does: follow up with leads, manage your calendar, draft emails, post on social, triage your inbox, track your pipeline, prep for meetings, send reminders. If it can be done on a computer, your AI employee handles it.</div></div>
+    <div class="faq-item reveal"><div class="fq">Is my data safe?<span class="fi">+</span></div><div class="fa">Your AI runs on a private, dedicated server. Your data never touches anyone else's systems. You own everything.</div></div>
+    <div class="faq-item reveal"><div class="fq">48 hours — really?<span class="fi">+</span></div><div class="fa">Really. We do a 15-minute onboarding call, then build and configure everything on our end. Most clients are fully operational the same day.</div></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <h2 class="fh2 reveal">The women ahead<br>of you already<br><em>have this.</em></h2>
+  <p class="fsub reveal">7 spots. 48-hour setup. No contracts.<br>The only question is whether you're ready to stop running your business and start <em>leading</em> it.</p>
+  <div class="reveal">
+    <a href="#book" class="btn-w">See How This Works in My Business →</a>
+    <div class="fnote">No credit card required · Cancel anytime</div>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">Reign AI</div>
+  <div class="fnt">© 2026 · Powered by enterprise-grade autonomous AI</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*70);});
+  },{threshold:0.01,rootMargin:'0px 0px -20px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>{
+    // If already in viewport on load, show immediately
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight) el.classList.add('visible');
+    else obs.observe(el);
+  });
+  // Calculator
+  function updateCalc(){
+    const hours = parseInt(document.getElementById('hoursSlider').value);
+    const rate  = parseInt(document.getElementById('rateSlider').value);
+    const monthly = hours * rate * 4.33;
+    const roi = Math.round(monthly / 500);
+    document.getElementById('hoursVal').textContent = hours + ' hours';
+    document.getElementById('rateVal').textContent  = '$' + rate + '/hr';
+    document.getElementById('monthlyLoss').textContent = '$' + monthly.toLocaleString('en-US',{maximumFractionDigits:0});
+    document.getElementById('roiReturn').textContent = roi.toLocaleString() + 'x return';
+    // Update slider gradient
+    const hSlider = document.getElementById('hoursSlider');
+    const rSlider = document.getElementById('rateSlider');
+    const hPct = ((hours - 5) / (40 - 5)) * 100;
+    const rPct = ((rate - 50) / (500 - 50)) * 100;
+    hSlider.style.setProperty('--val', hPct + '%');
+    rSlider.style.setProperty('--val', rPct + '%');
+    hSlider.style.background = `linear-gradient(to right, var(--hot) 0%, var(--pink) ${hPct}%, #e0d0e0 ${hPct}%)`;
+    rSlider.style.background = `linear-gradient(to right, var(--hot) 0%, var(--pink) ${rPct}%, #e0d0e0 ${rPct}%)`;
+  }
+  document.getElementById('hoursSlider').addEventListener('input', updateCalc);
+  document.getElementById('rateSlider').addEventListener('input', updateCalc);
+  updateCalc();
+
+  // Form
+  function handleSubmit(){
+    const name  = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    const biz   = document.getElementById('fbiz').value.trim();
+    if(!name || !email){ alert('Please enter your name and email.'); return; }
+    document.querySelector('.form-fields').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+    // TODO: Replace with your form endpoint (Formspree, Make, etc.)
+    // fetch('/api/leads', { method:'POST', body: JSON.stringify({name,email,biz}) });
+  }
+    item.querySelector('.fq').addEventListener('click',()=>{
+      const open=item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+      if(!open)item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
