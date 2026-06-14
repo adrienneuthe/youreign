@@ -1700,7 +1700,7 @@ img{max-width:100%;height:auto;}
     <p class="hero-note">No credit card · No tech knowledge · Live in 48 hours</p>
     <div class="urgency-tag">
       <span class="urgency-dot"></span>
-      Only 3 spots open this week - next availability: April 21
+      Only 3 spots open this week - next availability: <span id="next-avail-date"></span>
     </div>
     <div class="hero-stats">
       <div class="stat"><div class="stat-n">18<span>hrs</span></div><div class="stat-l">back every week</div></div>
@@ -2259,6 +2259,18 @@ img{max-width:100%;height:auto;}
     const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     el.textContent = months[new Date().getMonth()];
   });
+
+  // Dynamic next-availability date (always shows upcoming Monday)
+  (function(){
+    var el = document.getElementById('next-avail-date');
+    if (!el) return;
+    var d = new Date();
+    var day = d.getDay(); // 0=Sun,1=Mon,...6=Sat
+    var daysUntilMon = day === 1 ? 7 : (8 - day) % 7 || 7;
+    d.setDate(d.getDate() + daysUntilMon);
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    el.textContent = months[d.getMonth()] + ' ' + d.getDate();
+  })();
 </script>
 </body>
 </html>
